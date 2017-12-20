@@ -3,8 +3,10 @@
  */
 package View;
 
+import Controller.Controlador;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -51,6 +53,11 @@ public class InterfazApp extends JFrame
      */
     private PanelExtension pnlExtension;
     
+    /**
+     * Representa el contrplador principal de la aplicación.
+     */
+    private Controlador ctrl;
+    
     // -------------------------------------------------------------------------
     // Constructores
     // -------------------------------------------------------------------------
@@ -60,11 +67,12 @@ public class InterfazApp extends JFrame
      */
     public InterfazApp()
     {
+        ctrl = new Controlador();
         this.setTitle("Exposición Canina");
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        pnlPerrosExposicion = new PanelPerrosExposicion();
+        pnlPerrosExposicion = new PanelPerrosExposicion(ctrl);
         pnlDatosPerro = new PanelDatosPerro();
         pnlBusquedaOrdenamiento = new PanelBusquedaOrdenamientos();
         pnlAgregarPerro = new PanelAgregarPerro();
@@ -89,9 +97,20 @@ public class InterfazApp extends JFrame
         this.add(pnlCentro, BorderLayout.CENTER);
         this.add(pnlExtension, BorderLayout.SOUTH);
         
-        //this.setResizable(false);
+        this.setResizable(false);
         this.setSize(800, 550);
-        this.setLocationRelativeTo(null);  
+        this.setLocationRelativeTo(null);
+        
+        ctrl.conectar(pnlPerrosExposicion);
+        
+        try
+        {
+            ctrl.cargarPerros("./data/perros.txt");
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Cargue de información", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     // -------------------------------------------------------------------------

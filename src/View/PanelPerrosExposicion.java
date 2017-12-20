@@ -3,8 +3,11 @@
  */
 package View;
 
+import Controller.Controlador;
+import Model.Perro;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +36,16 @@ public class PanelPerrosExposicion extends JPanel
      */
     private JList listaPerros;
     
+    /**
+     * Modelo agregado a la lista.
+     */
+    private DefaultListModel<Perro> modeloLista;
+    
+    /**
+     * Controlador principal de la aplicacion.
+     */
+    private Controlador ctrl;
+    
     
     // -------------------------------------------------------------------------
     // Constructores
@@ -40,13 +53,18 @@ public class PanelPerrosExposicion extends JPanel
     
     /**
      * Contruye el panel Perros en la exposición.
+     * @param ctrl
      */
-    public PanelPerrosExposicion()
+    public PanelPerrosExposicion(Controlador ctrl)
     {
+        this.ctrl = ctrl;
         this.setBorder(new CompoundBorder( new EmptyBorder(4,3,3,3),new TitledBorder("Perros en la exposición")));
         this.setLayout(new BorderLayout());
         
+        modeloLista = new DefaultListModel<Perro>();
+        
         listaPerros = new JList();
+        listaPerros.setModel(modeloLista);
         listaPerros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         JScrollPane scroll = new JScrollPane(listaPerros);
@@ -60,4 +78,9 @@ public class PanelPerrosExposicion extends JPanel
     // -------------------------------------------------------------------------
     // Metodos
     // -------------------------------------------------------------------------
+    
+    public void agregarALista(Perro perro)
+    {
+        modeloLista.addElement(perro);
+    }
 }
