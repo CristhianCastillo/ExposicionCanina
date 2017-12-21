@@ -5,8 +5,10 @@ package Controller;
 
 import Model.Exposicion;
 import Model.Perro;
+import View.PanelDatosPerro;
 import View.PanelPerrosExposicion;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -24,7 +26,7 @@ public class Controlador
     // -------------------------------------------------------------------------
     
     /**
-     * Lista de los perros que hacen aprte de la exposición.
+     * Lista de los perros que hacen parte de la exposición.
      */
     private Exposicion exposicion;
     
@@ -32,6 +34,11 @@ public class Controlador
      * Panel Lista de Perros de la exposición.
      */
     private PanelPerrosExposicion pnlPerrosExposicion;
+    
+    /**
+     * Panel Datos Perro.
+     */
+    private PanelDatosPerro pnlDatosPerro;
     
     // -------------------------------------------------------------------------
     // Constructores
@@ -49,11 +56,21 @@ public class Controlador
     // Metodos
     // -------------------------------------------------------------------------
     
-    public void conectar(PanelPerrosExposicion pnlPerrosExposicion)
+    /**
+     * Conecta los paneles con el controlador principal de la aplicación.
+     * @param pnlPerrosExposicion PanelPerrosExposicion.
+     */
+    public void conectar(PanelPerrosExposicion pnlPerrosExposicion, PanelDatosPerro pnlDatosPerro)
     {
         this.pnlPerrosExposicion = pnlPerrosExposicion;
+        this.pnlDatosPerro = pnlDatosPerro;
     }
     
+    /**
+     * Carga la informacion de los perros mediante un archivo de propiedades.
+     * @param ruta Ruta y nombre del archivo de propiedades. ruta != null && ruta != "".
+     * @throws Exception 
+     */
     public void cargarPerros(String ruta) throws Exception
     {
         try
@@ -103,14 +120,15 @@ public class Controlador
                     
                     Perro perro = new Perro(nombrePerro, razaPerro, edadPerro, puntosPerro, imagen);
                     exposicion.agregarPerro(perro);
-                    pnlPerrosExposicion.agregarALista(perro);
                 }
                 catch(Exception e)
                 {
                     throw new Exception("Los puntos y edad deben ser un número.");
-                }
-                
+                }   
             }
+            
+            pnlPerrosExposicion.refrescarElementos(exposicion.getListaPerros());
+            pnlPerrosExposicion.seleccionarItem(0);
         }
         catch(Exception ex)
         {
@@ -118,9 +136,30 @@ public class Controlador
         }
     }
     
-    public void agregarPerro()
+    /**
+     * Obtiene el Perro seleccionado de la lista y actualiza el Panel Datos Perro.
+     * @param item Posicion en la lista del Perro seleccionado.
+     * @throws IOException 
+     */
+    public void perroSeleccionado(int item) throws IOException
     {
-        
+        Perro perroSeleccionado = exposicion.getPerro(item);
+        pnlDatosPerro.setPerroSeleccionado(perroSeleccionado);
+    }
+    
+    public void agregarPerro(String nombre, String raza, int edad, int puntos, String imagen) throws Exception
+    {
+        if(!exposicion.existePerro(nombre))
+        {
+            Perro perro = new Perro(nombre, raza, edad, puntos, imagen);
+            exposicion.agregarPerro(perro);
+            pnlPerrosExposicion.refrescarElementos(exposicion.getListaPerros());
+            pnlPerrosExposicion.seleccionarItem(0);
+        }
+        else
+        {
+            throw new Exception("Ya exite un perro con este nombre.");
+        }
     }
     
 }

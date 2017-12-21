@@ -3,6 +3,7 @@
  */
 package View;
 
+import Controller.Controlador;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -10,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -102,6 +105,11 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
      */
     private JButton btnAgregarPerro;
     
+    /**
+     * Controlador principal de la aplicación.
+     */
+    private Controlador ctrl;
+    
     // -------------------------------------------------------------------------
     // Constructores
     // -------------------------------------------------------------------------
@@ -109,9 +117,10 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
     /**
      * Construye el Panel Agregar Perro.
      */
-    public PanelAgregarPerro()
+    public PanelAgregarPerro(Controlador ctrl)
     {
-        this.setBorder(new CompoundBorder(new EmptyBorder(10,5,10,5), new TitledBorder("Agregar Perro")));
+        this.ctrl = ctrl;
+        this.setBorder(new CompoundBorder(new EmptyBorder(4,3,3,3), new TitledBorder("Agregar Perro")));
         this.setLayout(new BorderLayout());
         
         /**
@@ -138,6 +147,7 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
         pnlInterno.setLayout(new GridLayout(1, 2));
         
         txtImagen = new JTextField();
+        txtImagen.setEditable(false);
         btnExaminar = new JButton("Examinar");
         btnExaminar.setActionCommand(EXAMINAR);
         btnExaminar.addActionListener((ActionListener)this);
@@ -215,21 +225,73 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
         
         this.add(pnlNorte, BorderLayout.CENTER);
         this.add(pnlSur, BorderLayout.SOUTH);
-        
-        
-        
-        
-        
-        
     }
     // -------------------------------------------------------------------------
     // Metodos
     // -------------------------------------------------------------------------
 
+    /**
+     * Escucha los eventos generados por los botónes.
+     * @param e Acción que genero el evento. e != null.
+     */
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+        String comando = e.getActionCommand();
         
+        if(comando.equalsIgnoreCase(EXAMINAR))
+        {
+            JFileChooser fc = new JFileChooser("./data");
+            fc.setDialogTitle("Buscar imagen de perro");
+            fc.setMultiSelectionEnabled(false);
+            
+            int resultado = fc.showOpenDialog(this);
+            if(resultado == JFileChooser.APPROVE_OPTION)
+            {
+                String imagen = fc.getSelectedFile().getAbsolutePath();
+                txtImagen.setText(imagen);
+            }
+        }
+        else
+        {
+            if(comando.equalsIgnoreCase(AGREGAR_PERRO))
+            {
+                String nombre = txtNombre.getText();
+                String raza = txtRaza.getText();
+                String edadStr = txtEdad.getText();
+                String puntosStr = txtPuntos.getText();
+                String imagen = txtImagen.getText();
+                
+                //Validacion campos vacios.
+                if(nombre.trim().equalsIgnoreCase("") || raza.trim().equalsIgnoreCase("")
+                        || edadStr.trim().equalsIgnoreCase("") || puntosStr.trim().equalsIgnoreCase("")
+                        || imagen.trim().equalsIgnoreCase(""))
+                {
+                    JOptionPane.showMessageDialog(this, "No pueden existir campos vacios.", "Agregar Perro", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    try
+                    {
+                        int edad = Integer.parseInt(edadStr);
+                        int puntos = Integer.parseInt(puntosStr);
+                        if(edad <= 0)
+                        {
+                            throw new Exception("La edad debe ser mayor a cero.");
+                        }
+                        
+                        if(puntos < 0)
+                            throw new Exception("Los puntos deben ser positivos.");
+                        
+                        ctrl.agregarPerro(nombre, raza, edad, puntos, imagen);
+                    }
+                    catch(Exception ex)
+                    {
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Agregar Perro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        }
     }
     
     

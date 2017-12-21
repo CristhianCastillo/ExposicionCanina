@@ -75,7 +75,7 @@ public class InterfazApp extends JFrame
         pnlPerrosExposicion = new PanelPerrosExposicion(ctrl);
         pnlDatosPerro = new PanelDatosPerro();
         pnlBusquedaOrdenamiento = new PanelBusquedaOrdenamientos();
-        pnlAgregarPerro = new PanelAgregarPerro();
+        pnlAgregarPerro = new PanelAgregarPerro(ctrl);
         pnlConsultas = new PanelConsultas();
         pnlExtension = new PanelExtension();
         
@@ -98,10 +98,9 @@ public class InterfazApp extends JFrame
         this.add(pnlExtension, BorderLayout.SOUTH);
         
         this.setResizable(false);
-        this.setSize(800, 550);
+        this.setSize(800, 575);
         this.setLocationRelativeTo(null);
-        
-        ctrl.conectar(pnlPerrosExposicion);
+        ctrl.conectar(pnlPerrosExposicion, pnlDatosPerro);
         
         try
         {

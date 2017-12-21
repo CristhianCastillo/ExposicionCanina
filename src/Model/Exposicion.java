@@ -28,6 +28,9 @@ public class Exposicion
     // Constructores
     // -------------------------------------------------------------------------
     
+    /**
+     * Construye el contenedor de la exposicion canina.
+     */
     public Exposicion()
     {
         coleccionPerros = new ArrayList<>();
@@ -44,6 +47,39 @@ public class Exposicion
     public void agregarPerro(Perro perro)
     {
         coleccionPerros.add(perro);
+    }
+    
+    /**
+     * Obtiene la lista de los perros de la exposición.
+     * @return Lista de los perros.
+     */
+    public ArrayList<Perro> getListaPerros()
+    {
+        return this.coleccionPerros;
+    }
+    
+    /**
+     * Obtiene un objeto tipo Perro en una posicion especifica.
+     * @param index Indice del objeto.
+     * @return Perro seleccionado.
+     */
+    public Perro getPerro (int index)
+    {
+        return coleccionPerros.get(index);
+    }
+    
+    public boolean existePerro(String nombre)
+    {
+        for(int i = 0; i < coleccionPerros.size(); i ++)
+        {
+            Perro perroTemp = coleccionPerros.get(i);
+            if(perroTemp.getNombre().equalsIgnoreCase(nombre))
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
 }

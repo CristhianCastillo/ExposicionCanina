@@ -69,7 +69,7 @@ public class PanelConsultas extends JPanel implements ActionListener
     public PanelConsultas ()
     {
         this.setBorder(new CompoundBorder(new EmptyBorder(4,3,3,3), new TitledBorder("Consultas Exposición")));
-        this.setLayout(new GridLayout(4, 1, 10, 10));
+        this.setLayout(new GridLayout(5, 1, 10, 10));
         
         //Creacion componentes.
         
