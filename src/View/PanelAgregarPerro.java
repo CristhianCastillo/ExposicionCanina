@@ -25,6 +25,7 @@ import javax.swing.border.TitledBorder;
  * Clase que representa el Panel Agregar Perro.
  * @author Cristhian Eduardo Castillo Erazo.
  */
+@SuppressWarnings("all")
 public class PanelAgregarPerro extends JPanel implements ActionListener
 {
     // -------------------------------------------------------------------------
@@ -48,67 +49,67 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
     /**
      * Etiqueta nombre.
      */
-    private JLabel lblNombre;
+    private final JLabel lblNombre;
     
     /**
      * Etiqueta raza.
      */
-    private JLabel lblRaza;
+    private final JLabel lblRaza;
     
     /**
      * Etiqueta edad.
      */
-    private JLabel lblEdad;
+    private final JLabel lblEdad;
     
     /**
      * Etiqueta puntos.
      */
-    private JLabel lblPuntos;
+    private final JLabel lblPuntos;
     
     /**
      * Etiqueta Imagen.
      */
-    private JLabel lblImagen;
+    private final JLabel lblImagen;
     
     /**
      * Campo de texto Nombre.
      */
-    private JTextField txtNombre;
+    private final JTextField txtNombre;
     
     /**
      * Campo de texto Raza.
      */
-    private JTextField txtRaza;
+    private final JTextField txtRaza;
     
     /**
      * Campo de texto Edad.
      */
-    private JTextField txtEdad;
+    private final JTextField txtEdad;
     
     /**
      * Campo de texto Puntos.
      */
-    private JTextField txtPuntos;
+    private final JTextField txtPuntos;
     
     /**
      * Campo de texto Imagen.
      */
-    private JTextField txtImagen;
+    private final JTextField txtImagen;
     
     /**
      * Boton Examinar imagen.
      */
-    private JButton btnExaminar;
+    private final JButton btnExaminar;
     
     /**
      * Boton Agregar Perro.
      */
-    private JButton btnAgregarPerro;
+    private final JButton btnAgregarPerro;
     
     /**
      * Controlador principal de la aplicación.
      */
-    private Controlador ctrl;
+    private final Controlador ctrl;
     
     // -------------------------------------------------------------------------
     // Constructores
@@ -116,6 +117,7 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
     
     /**
      * Construye el Panel Agregar Perro.
+     * @param ctrl Controlador principal.
      */
     public PanelAgregarPerro(Controlador ctrl)
     {
@@ -268,6 +270,7 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
                         || imagen.trim().equalsIgnoreCase(""))
                 {
                     JOptionPane.showMessageDialog(this, "No pueden existir campos vacios.", "Agregar Perro", JOptionPane.ERROR_MESSAGE);
+                    txtNombre.requestFocus();
                 }
                 else
                 {
@@ -284,6 +287,7 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
                             throw new Exception("Los puntos deben ser positivos.");
                         
                         ctrl.agregarPerro(nombre, raza, edad, puntos, imagen);
+                        borrarDescripcionCampos();
                     }
                     catch(Exception ex)
                     {
@@ -292,6 +296,18 @@ public class PanelAgregarPerro extends JPanel implements ActionListener
                 }
             }
         }
+    }
+    
+    /**
+     * Borra la infomracion suministrada en los campos.
+     */
+    public void borrarDescripcionCampos()
+    {
+        txtNombre.setText("");
+        txtRaza.setText("");
+        txtEdad.setText("");
+        txtPuntos.setText("");
+        txtImagen.setText("");
     }
     
     

@@ -3,11 +3,13 @@
  */
 package View;
 
+import Controller.Controlador;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
@@ -52,22 +54,27 @@ public class PanelBusquedaOrdenamientos extends JPanel implements ActionListener
     /**
      * Boton Ordenar por Raza.
      */
-    private JButton btnOrdenarRaza;
+    private final JButton btnOrdenarRaza;
     
     /**
      * Boton Ordenar por Puntos.
      */
-    private JButton btnOrdenarPuntos;
+    private final JButton btnOrdenarPuntos;
     
     /**
      * Boton Ordenar por Edad.
      */
-    private JButton btnOrdenarEdad;
+    private final JButton btnOrdenarEdad;
     
     /**
      * Boton Buscar Perro.
      */
-    private JButton btnBuscarPerro;
+    private final JButton btnBuscarPerro;
+    
+    /**
+     * Controlador principal de la aplicacion.
+     */
+    private final Controlador ctrl;
     
     // -------------------------------------------------------------------------
     // Constructores
@@ -75,9 +82,11 @@ public class PanelBusquedaOrdenamientos extends JPanel implements ActionListener
     
     /**
      * Construye el Panel Búsqueda y ordenamiento.
+     * @param ctrl Controlador principal de la aplicación.
      */
-    public PanelBusquedaOrdenamientos()
+    public PanelBusquedaOrdenamientos(Controlador ctrl)
     {
+        this.ctrl = ctrl;
         this.setBorder(new CompoundBorder(new EmptyBorder(4,3,3,3), new TitledBorder("Búsqueda y ordenamientos")));
         this.setLayout(new BorderLayout());
         
@@ -145,8 +154,8 @@ public class PanelBusquedaOrdenamientos extends JPanel implements ActionListener
         );
         
         this.add(pnlBotones, BorderLayout.CENTER);
-        
-    }  
+    }
+    
     // -------------------------------------------------------------------------
     // Metodos
     // -------------------------------------------------------------------------
@@ -158,7 +167,47 @@ public class PanelBusquedaOrdenamientos extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+        String comando = e.getActionCommand();
         
+        if(comando.equalsIgnoreCase(ORDENAR_RAZA))
+        {
+            ctrl.ordenarExposicionPorRaza();
+        }
+        else
+        {
+            if(comando.equalsIgnoreCase(ORDENAR_PUNTOS))
+            {
+                ctrl.ordenarExposicionPorPuntos();
+            }
+            else
+            {
+                if(comando.equalsIgnoreCase(ORDENAR_EDAD))
+                {
+                    ctrl.ordenarExposicionPorEdad();
+                }
+                else
+                {
+                    if(comando.equalsIgnoreCase(BUSCAR_PERRO))
+                    {
+                        try
+                        {
+                            String nombrePerro = JOptionPane.showInputDialog(this, "Nombre del perro", "Buscar Perro", JOptionPane.INFORMATION_MESSAGE);
+                            
+                            if(nombrePerro == null)
+                                throw new Exception("Busqueda cancelada por el usuario.");
+                            
+                            if(nombrePerro.trim().equalsIgnoreCase(""))
+                                throw  new Exception("El nombre del perro no puede estar vacío.");
+                            ctrl.buscarPerro(nombrePerro);
+                        }
+                        catch(Exception ex)
+                        {
+                            JOptionPane.showMessageDialog(this, ex.getMessage(), "Buscar Perro", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+        }
     }
     
     

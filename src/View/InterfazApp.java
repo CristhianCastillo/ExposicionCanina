@@ -74,10 +74,10 @@ public class InterfazApp extends JFrame
         
         pnlPerrosExposicion = new PanelPerrosExposicion(ctrl);
         pnlDatosPerro = new PanelDatosPerro();
-        pnlBusquedaOrdenamiento = new PanelBusquedaOrdenamientos();
+        pnlBusquedaOrdenamiento = new PanelBusquedaOrdenamientos(ctrl);
         pnlAgregarPerro = new PanelAgregarPerro(ctrl);
-        pnlConsultas = new PanelConsultas();
-        pnlExtension = new PanelExtension();
+        pnlConsultas = new PanelConsultas(ctrl);
+        pnlExtension = new PanelExtension(ctrl);
         
         JPanel pnlNorte = new JPanel();
         pnlNorte.setLayout(new BorderLayout());

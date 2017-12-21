@@ -8,7 +8,6 @@ import Model.Perro;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,12 +37,12 @@ public class PanelPerrosExposicion extends JPanel implements ListSelectionListen
     /**
      * Lista de los perros que forman parte de la exposicion.
      */
-    private JList listaPerros;
+    private final JList listaPerros;
         
     /**
      * Controlador principal de la aplicacion.
      */
-    private Controlador ctrl;
+    private final Controlador ctrl;
     
     
     // -------------------------------------------------------------------------
@@ -94,7 +93,7 @@ public class PanelPerrosExposicion extends JPanel implements ListSelectionListen
         listaPerros.setSelectedIndex(indice);
         listaPerros.ensureIndexIsVisible(indice);
     }
-
+    
     /**
      * Evento generado al seleccionar un item de la lista de perros.
      * @param e 
@@ -113,8 +112,6 @@ public class PanelPerrosExposicion extends JPanel implements ListSelectionListen
             {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Perros Exposición", JOptionPane.ERROR_MESSAGE);
             }
-           
         }
-
     }
 }

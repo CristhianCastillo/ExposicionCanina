@@ -68,75 +68,79 @@ public class Perro
     // -------------------------------------------------------------------------
 
     /**
-     * @return the nombre
+     * @return El nombre del perro.
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     * @param nombre the nombre to set
+     * @param nombre El nombre del perro para actualizar.
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     /**
-     * @return the raza
+     * @return La raza del perro.
      */
     public String getRaza() {
         return raza;
     }
 
     /**
-     * @param raza the raza to set
+     * @param raza La raza del perro para actualizar.
      */
     public void setRaza(String raza) {
         this.raza = raza;
     }
 
     /**
-     * @return the edad
+     * @return Edad del perro.
      */
     public int getEdad() {
         return edad;
     }
 
     /**
-     * @param edad the edad to set
+     * @param edad La edad del perro para actualizar.
      */
     public void setEdad(int edad) {
         this.edad = edad;
     }
 
     /**
-     * @return the puntos
+     * @return Puntos del perro.
      */
     public int getPuntos() {
         return puntos;
     }
 
     /**
-     * @param puntos the puntos to set
+     * @param puntos Puntos del perro para actualizar.
      */
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
 
     /**
-     * @return the imagen
+     * @return Ruta de la imagen del perro.
      */
     public String getImagen() {
         return imagen;
     }
 
     /**
-     * @param imagen the imagen to set
+     * @param imagen Ruta de la imagen del perro para actualizar.
      */
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
     
+    /**
+     * Descripción del Perro en la lista.
+     * @return 
+     */
     @Override
     public String toString()
     {

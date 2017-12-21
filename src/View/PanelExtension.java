@@ -3,6 +3,7 @@
  */
 package View;
 
+import Controller.Controlador;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class PanelExtension extends JPanel implements ActionListener
      * Comando enviado al boton Opcion dos.
      */
     public static final String OPCION_DOS = "Opcion2";
-    
+     
     // -------------------------------------------------------------------------
     // Atributos
     // -------------------------------------------------------------------------
@@ -37,12 +38,17 @@ public class PanelExtension extends JPanel implements ActionListener
     /**
      * Boton Opcion uno.
      */
-    private JButton btnOpcionUno;
+    private final JButton btnOpcionUno;
     
     /**
      * Boton Opcion dos.
      */
-    private JButton btnOpcionDos;
+    private final JButton btnOpcionDos;
+    
+    /**
+     * Controlador principal de la aplicación.
+     */
+    private final Controlador ctrl;
     
     // -------------------------------------------------------------------------
     // Constructores
@@ -50,9 +56,11 @@ public class PanelExtension extends JPanel implements ActionListener
     
     /**
      * Construye el Panel Puntos de Extensión.
+     * @param ctrl Controlador principal de la aplicación.
      */
-    public PanelExtension()
+    public PanelExtension(Controlador ctrl)
     {
+        this.ctrl = ctrl;
         this.setBorder(new TitledBorder("Puntos de Extensión"));
         this.setLayout(new FlowLayout());
         
@@ -72,10 +80,26 @@ public class PanelExtension extends JPanel implements ActionListener
     // Metodos
     // -------------------------------------------------------------------------
 
+    /**
+     * Escucha los eventos generados por los botónes.
+     * @param e Acción que genero el evento. e != null.
+     */
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+        String comando = e.getActionCommand();
         
+        if(comando.equalsIgnoreCase(OPCION_UNO))
+        {
+            ctrl.opcionUno();
+        }
+        else
+        {
+            if(comando.equalsIgnoreCase(OPCION_DOS))
+            {
+                ctrl.opcionDos();
+            }
+        }
     }
     
 }

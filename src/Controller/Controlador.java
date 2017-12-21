@@ -10,6 +10,7 @@ import View.PanelPerrosExposicion;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  * Clase que representa el controlador principal de la aplicación.
@@ -28,7 +29,7 @@ public class Controlador
     /**
      * Lista de los perros que hacen parte de la exposición.
      */
-    private Exposicion exposicion;
+    private final Exposicion exposicion;
     
     /**
      * Panel Lista de Perros de la exposición.
@@ -43,7 +44,6 @@ public class Controlador
     // -------------------------------------------------------------------------
     // Constructores
     // -------------------------------------------------------------------------
-    
     /**
      * Construye el coontrolador principal de la aplicación.
      */
@@ -59,6 +59,7 @@ public class Controlador
     /**
      * Conecta los paneles con el controlador principal de la aplicación.
      * @param pnlPerrosExposicion PanelPerrosExposicion.
+     * @param pnlDatosPerro PanelDatosPerros.
      */
     public void conectar(PanelPerrosExposicion pnlPerrosExposicion, PanelDatosPerro pnlDatosPerro)
     {
@@ -111,10 +112,10 @@ public class Controlador
             
                 try
                 {
-                    int puntosPerro = Integer.parseInt(puntosPerroStr.toString());
+                    int puntosPerro = Integer.parseInt(puntosPerroStr);
                     if(puntosPerro < 0)
                         throw new Exception("Los puntos del perro no pueden ser negativos.");
-                    int edadPerro = Integer.parseInt(edadPerroStr.toString());
+                    int edadPerro = Integer.parseInt(edadPerroStr);
                     if(edadPerro <= 0)
                         throw new Exception("La edad del perro no puede ser menor o negativa.");
                     
@@ -132,7 +133,7 @@ public class Controlador
         }
         catch(Exception ex)
         {
-            throw new Exception("Error al cargar los datos almacenados de las atracciones.");
+            throw new Exception("Error al cargar los datos almacenados de los perros.");
         }
     }
     
@@ -147,9 +148,18 @@ public class Controlador
         pnlDatosPerro.setPerroSeleccionado(perroSeleccionado);
     }
     
+    /**
+     * Agrega un perro a la exposicion Canina
+     * @param nombre Nombre del perro. nombre != null && nombre != "".
+     * @param raza Raza del perro. raza != null && raza != "".
+     * @param edad Edad del perro. edad > 0.
+     * @param puntos Puntos del perro. puntos >= 0.
+     * @param imagen Ruta de la imagen del perro. imagen != null && imagen 1= "".
+     * @throws Exception 
+     */
     public void agregarPerro(String nombre, String raza, int edad, int puntos, String imagen) throws Exception
     {
-        if(!exposicion.existePerro(nombre))
+        if(exposicion.buscarPerro(nombre) == -1)
         {
             Perro perro = new Perro(nombre, raza, edad, puntos, imagen);
             exposicion.agregarPerro(perro);
@@ -158,8 +168,132 @@ public class Controlador
         }
         else
         {
-            throw new Exception("Ya exite un perro con este nombre.");
+            throw new Exception("Ya existe un perro con este nombre.");
         }
     }
     
+    /**
+     * Ordena la lista de perros de la exposicion por raza.
+     * Actualiza la vista en el Panel Perros en la exposición.
+     * Selecciona el primer perro de la lista.
+     */
+    public void ordenarExposicionPorRaza()
+    {
+        exposicion.ordenarPorRaza();
+        pnlPerrosExposicion.refrescarElementos(exposicion.getListaPerros());
+        pnlPerrosExposicion.seleccionarItem(0);   
+    }
+    
+    /**
+     * Ordena la lista de perros de la exposición por Puntaje obtenido.
+     * Actualiza la vista en el Panel Perros en la exposición.
+     * Selecciona el primero perro de la lista.
+     */
+    public void ordenarExposicionPorPuntos()
+    {
+        exposicion.ordenarPorPuntos();
+        pnlPerrosExposicion.refrescarElementos(exposicion.getListaPerros());
+        pnlPerrosExposicion.seleccionarItem(0);
+    }
+    
+    /**
+     * Ordena la lista de perros de la exposición por edad.
+     * Actualiza la vista en el Panel Perros en la exposición.
+     * Seleeciona el primer perro de la lista.
+     */
+    public void ordenarExposicionPorEdad()
+    {
+        exposicion.ordenarPorEdad();
+        pnlPerrosExposicion.refrescarElementos(exposicion.getListaPerros());
+        pnlPerrosExposicion.seleccionarItem(0);
+    }
+    
+    /**
+     * Actualiza la vista del Panel Perros en la exposición seleccionado el perro
+     * consultado si existe.
+     * @param nombre Nombre del perro a buscar. nombre != null && nombre != "".
+     * @throws Exception 
+     */
+    public void buscarPerro(String nombre) throws Exception
+    {
+        int indice = exposicion.buscarPerro(nombre);
+        if(indice >= 0)
+        {
+            pnlPerrosExposicion.seleccionarItem(indice);
+        }
+        else
+        {
+            throw  new Exception("No existe perro con ese nombre en la exposición.");
+        }
+    }
+    
+    /**
+     * Actualiza la vista del Panel Perros en la exposición, seleccionando el 
+     * perro ganador.
+     * @throws Exception 
+     */
+    public void buscarGanador() throws Exception
+    {
+        int indice = exposicion.obtenerGanador();
+        if(indice >= 0)
+        {
+            pnlPerrosExposicion.seleccionarItem(indice);
+        }
+        else
+        {
+            throw new Exception("No se puede determinar el perro ganador.");
+        }
+    }
+    
+    /**
+     * Actualiza la vista del Panel Perros en la exposicion, seleccionando el 
+     * perro perdedor.
+     * @throws Exception 
+     */
+    public void buscarPerdedor() throws Exception
+    {
+        int indice = exposicion.obtenerPerdedor();
+        if(indice >= 0)
+        {
+            pnlPerrosExposicion.seleccionarItem(indice);
+        }
+        else
+        {
+            throw new Exception("No se puede determinar el perro perdedor.");
+        }
+    }
+    
+    /**
+     * Actualiza la visa del Panel Perros en la exposición, seleccionado el
+     * perro mas viejo.
+     * @throws Exception 
+     */
+    public void buscarMasViejo() throws Exception
+    {
+        int indice = exposicion.obtenerPerroViejo();
+        if(indice >= 0)
+        {
+            pnlPerrosExposicion.seleccionarItem(indice);
+        }
+        else
+        {
+            throw new Exception("No se puede determinar el perro mas viejo.");
+        }
+    }
+    
+    /**
+     * Método para la extensión 1.
+     */
+    public void opcionUno()
+    {
+        JOptionPane.showMessageDialog(null, "respuesta1", "Respuesta", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    /**
+     * Método para la extensión 2.
+     */
+    public void opcionDos()
+    {
+        JOptionPane.showMessageDialog(null, "respuesta2", "Respuesta", JOptionPane.INFORMATION_MESSAGE);
+    }
 }

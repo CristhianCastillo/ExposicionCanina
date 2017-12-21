@@ -7,7 +7,6 @@ import Model.Perro;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -51,47 +49,47 @@ public class PanelDatosPerro extends JPanel
     /**
      * Imagen perro.
      */
-    private JLabel lblImagenPerro;
+    private final JLabel lblImagenPerro;
     
     /**
      * Etiqueta Nombre.
      */
-    private JLabel lblNombre;
+    private final JLabel lblNombre;
     
     /**
      * Etiqueta Edad.
      */
-    private JLabel lblEdad;
+    private final JLabel lblEdad;
     
     /**
      * Etiqueta Raza.
      */
-    private JLabel lblRaza;
+    private final JLabel lblRaza;
     
     /**
      * Etiqueta Puntos.
      */
-    private JLabel lblPuntos;
+    private final JLabel lblPuntos;
     
     /**
      * Campo de texto Nombre.
      */
-    private JTextField txtNombre;
+    private final JTextField txtNombre;
     
     /**
      * Campo de texto Edad.
      */
-    private JTextField txtEdad;
+    private final JTextField txtEdad;
     
     /**
      * Campo de texto Raza.
      */
-    private JTextField txtRaza;
+    private final JTextField txtRaza;
     
     /**
      * Campo de texto Puntos.
      */
-    private JTextField txtPuntos;
+    private final JTextField txtPuntos;
     
     /**
      * Objeto contenedor de la imagen del perro seleccionado.
